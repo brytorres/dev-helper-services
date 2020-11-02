@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { AppController } from './app.controller';
 import { DevelopmentLogModule } from './app/development-log/development-log.module';
 import { IssueLogModule } from './app/issue-log/issue-log.module';
-import { ProjectsModule } from './app/projects/project.module';
+import { ProjectModule } from './app/projects/project.module';
 
 @Module({
   imports: [
@@ -15,7 +15,8 @@ import { ProjectsModule } from './app/projects/project.module';
     TypeOrmModule.forRoot(),
     DevelopmentLogModule,
     IssueLogModule,
-    ProjectsModule,],
+    ProjectModule,
+  ],
   controllers: [AppController],
   providers: [],
 })
