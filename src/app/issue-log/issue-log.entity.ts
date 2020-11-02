@@ -13,16 +13,19 @@ export class IssueLog {
   errorMessage: string;
 
   @Column('jsonb', { nullable: true })
-  errorStack: string;
+  errorStack: any;
 
   @Column('text', { nullable: true })
   errorDescription: string;
 
-  @Column('varchar', { length:100, nullable: true })
-  keywords: string;
+  @Column('jsonb', { nullable: true })
+  keywords: string[];
 
   @Column('text', { nullable: true })
   solution: string;
+
+  @Column('timestamp', { nullable: true })
+  trashedAt: string;
 
   @ManyToMany((type) => Project, (projects) => projects.issueLogs)
   projects: Project[];
