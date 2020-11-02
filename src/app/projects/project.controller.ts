@@ -6,7 +6,7 @@ import { ProjectService } from './project.service';
 @Controller('projects')
 export class ProjectController {
   constructor(
-    private readonly projectService: ProjectService
+    private readonly projectService: ProjectService,
   ){}
 
   @Get()
