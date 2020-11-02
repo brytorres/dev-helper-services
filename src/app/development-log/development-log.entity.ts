@@ -28,6 +28,9 @@ export class DevelopmentLog {
   @Column('text', { nullable: true })
   toResearch: string;
 
+  @Column('timestamp', { nullable: true })
+  trashedAt: string;
+
   @ManyToMany((type) => Project, (projects) => projects.developmentLogs)
   projects: Project[];
 }
