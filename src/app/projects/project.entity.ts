@@ -13,11 +13,14 @@ export class Project {
   @Column('varchar', { length: 100, nullable: true })
   title: string;
 
-  @Column('timestamp', { nullable: false })
+  @Column('timestamp', { nullable: true })
   dateStarted: string;
 
-  @Column('timestamp', { nullable: false })
+  @Column('timestamp', { nullable: true })
   dateCompleted: string;
+
+  @Column('timestamp', { nullable: true })
+  trashedAt: string;
 
   @ManyToMany((type) => DevelopmentLog, (developmentLog) => developmentLog.projects)
   @JoinTable()
