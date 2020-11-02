@@ -20,7 +20,11 @@ export class DevelopmentLogService {
    */
   async index() {
     try {
-      const developmentLogs = await this.developmentLogRepo.find();
+      const developmentLogs = await this.developmentLogRepo.find({
+        order: {
+          id: 'DESC'
+        }
+      });
       return developmentLogs;
     } catch (error) {
       this.logger.error(error)

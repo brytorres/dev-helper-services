@@ -18,7 +18,11 @@ export class ProjectService {
    */
   async index() {
     try {
-      const projects = await this.projectRepo.find();
+      const projects = await this.projectRepo.find({
+        order: {
+          id: 'ASC'
+        }
+      });
       return projects;
     } catch (error) {
       this.logger.error(error)
