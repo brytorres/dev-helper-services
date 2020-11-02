@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { ProjectService } from '../projects/project.service';
 import { CreateIssueLogDto } from './dto/CreateIssueLog.dto';
 import { EditIssueLogDto } from './dto/EditIssueLog.dto';
@@ -16,7 +16,7 @@ export class IssueLogService {
   ){}
 
   /**
-   * get all development log
+   * get all issue log
    */
   async index() {
     try {
@@ -28,7 +28,7 @@ export class IssueLogService {
   }
 
   /**
-   * Find a development log by ID.
+   * Find a issue log by ID.
    * @param issueLogId - Developement log ID
    */
   async findById(issueLogId: number) {
@@ -40,9 +40,46 @@ export class IssueLogService {
       throw new HttpException(error, HttpStatus.NOT_FOUND);
     }
   }
+  
 
   /**
-   * Create a new development log.
+   * Search for a issue log.
+   * @param seachBody - Search object
+   */
+  async search(searchBody: {
+    errorMessage: string;
+    errorDescription: string;
+    keywords: string[];
+  }) {
+    try {
+      const searchQuery = await getRepository(IssueLog)
+        .createQueryBuilder('issue_log')
+
+      if (searchBody.errorMessage) {
+        searchQuery.andWhere(`issue_log.errorMessage ILIKE '%' || :message || '%'`, {
+          message: searchBody.errorMessage
+        })
+      }
+      if (searchBody.errorDescription) {
+        searchQuery.andWhere(`issue_log.errorDescription ILIKE '%' || :description || '%'`, {
+          description: searchBody.errorDescription
+        })
+      }
+      if (searchBody.keywords) {
+        searchQuery.andWhere(`"issue_log"."keywords"::jsonb ?| :keywords`, {
+          keywords: searchBody.keywords
+        })
+      }
+
+      return searchQuery.getMany();
+    } catch (error) {
+      this.logger.error(error)
+      throw new HttpException(error, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  /**
+   * Create a new issue log.
    * @param body - New log data
    */
   async create(body: CreateIssueLogDto) {
@@ -79,7 +116,7 @@ export class IssueLogService {
   }
 
   /**
-   * Edit a development log.
+   * Edit a issue log.
    * @param issueLogId - Issue log ID
    * @param body - Edited log data
    */
@@ -114,7 +151,7 @@ export class IssueLogService {
   }
 
   /**
-   * Trash a development log.
+   * Trash a issue log.
    * @param issueLogId - Issue log ID
    */
   async trash(issueLogId: number) {
@@ -130,7 +167,7 @@ export class IssueLogService {
   }
 
   /**
-   * Restore a trashed development log.
+   * Restore a trashed issue log.
    * @param issueLogId - Issue log ID
    */
   async restore(issueLogId: number) {

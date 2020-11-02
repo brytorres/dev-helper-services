@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateIssueLogDto } from './dto/CreateIssueLog.dto';
 import { EditIssueLogDto } from './dto/EditIssueLog.dto';
 import { IssueLogService } from './issue-log.service';
@@ -19,6 +19,16 @@ export class IssueLogController {
   async findById(@Param('issueLogId') issueLogId: number) {
     const issueLog = await this.issueLogService.findById(issueLogId);
     return issueLog;
+  }
+
+  @Post('search')
+  async search(@Body() body: {
+    errorMessage: string;
+    errorDescription: string;
+    keywords: string[];
+  }) {
+    const issueLogs = await this.issueLogService.search(body);
+    return issueLogs;
   }
 
   @Post()
