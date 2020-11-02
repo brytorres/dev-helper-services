@@ -8,7 +8,6 @@ import { EditDevelopmentLogDto } from './dto/EditDevelopmentLog.dto';
 
 @Injectable()
 export class DevelopmentLogService {
-
   constructor(
     @Inject(Logger) private readonly logger: LoggerService,
     @InjectRepository(DevelopmentLog)

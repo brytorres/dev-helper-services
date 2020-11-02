@@ -6,7 +6,7 @@ import { EditDevelopmentLogDto } from './dto/EditDevelopmentLog.dto';
 @Controller('development-logs')
 export class DevelopmentLogController {
   constructor(
-    private readonly developmentLogService: DevelopmentLogService
+    private readonly developmentLogService: DevelopmentLogService,
   ){}
 
   @Get()
@@ -52,4 +52,5 @@ export class DevelopmentLogController {
     if (restoredDevelopmentLog) {
       return true;
     }
-  }}
+  }
+}
